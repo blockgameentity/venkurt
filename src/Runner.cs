@@ -20,9 +20,7 @@ internal static class Runner
         proc?.WaitForExit();
 
         if (proc?.ExitCode is -1)
-        {
             Reporter.Report(Reporter.Situation.ExitCode,
                 $"\ncmd: {command} \nargs: {args} \nworkdir: {workDir} \nout: {proc.StandardOutput.ReadToEnd()}");
-        }
     }
 }
