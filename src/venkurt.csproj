@@ -7,6 +7,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <PublishAot>true</PublishAot>
+        <OptimizationPreference>Speed</OptimizationPreference>
     </PropertyGroup>
 
 
