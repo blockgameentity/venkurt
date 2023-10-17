@@ -1,0 +1,15 @@
+# venkurt
+
+## my plugins
+
+* downmix
+* fake deafen
+* platform emulator (websocket spoofer)
+
+## other plugins
+
+* [Luna's Banners Everywhere](https://codeberg.org/Lunaa/bannersEverywhere)
+* [Syncxv's Gif Collection](https://github.com/Syncxv/vc-gif-collections)
+* [Syncxv's MessageLoggerEnhanced](https://github.com/Syncxv/vc-message-logger-enhanced)
+* [Phil's BetterMicrophone](https://github.com/philhk/Vencord)
+* [Phil's BetterScreenshare](https://github.com/philhk/Vencord)
