@@ -31,32 +31,15 @@ internal static class Deps
         }
     }
 
-    public static void InstallRequirements()
+    public static void EnsureRequirements()
     {
         foreach (var requirement in Constants.Requirements)
         {
             if (GetCommand(requirement.Replace("js", string.Empty))) continue;
 
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Console.WriteLine($"{requirement} is not installed!");
-                Console.ReadLine();
-                Environment.Exit(-1);
-            }
-            
-            Console.WriteLine($"{requirement} is not installed! Would you like to install {requirement} using Scoop?" +
-                              $" Scoop will also be installed if you do not have it. (Y/N) ");
-            var input = Console.ReadKey();
-
-            if (input.Key is ConsoleKey.Y)
-            {
-                if (!GetCommand("scoop"))
-                    Runner.RunCommand("powershell", "\"Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; " +
-                                                    "Invoke-RestMethod get.scoop.sh | Invoke-Expression\"");
-                Runner.RunCommand("scoop", $"install {requirement}");
-            }
-            else
-                Environment.Exit(-1);
+            Console.WriteLine($"{requirement} is not installed!");
+            Console.ReadLine();
+            Environment.Exit(-1);
         }
     }
 }

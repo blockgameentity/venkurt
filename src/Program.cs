@@ -21,7 +21,7 @@ internal static class Program
         using var mutex = new Mutex(false, $@"Global\{Constants.AppGuid}");
         if (!mutex.WaitOne(0, false)) return;
         
-        Deps.InstallRequirements();
+        Deps.EnsureRequirements();
         DeleteVencord();
         Setup.Vencord();
         Setup.PhilsPlugins();

@@ -9,17 +9,16 @@ internal static class Runner
         var psi = new ProcessStartInfo
         {
             FileName = command,
-            Arguments = args,
-            WorkingDirectory = workDir,
-            RedirectStandardOutput = true,
-            UseShellExecute = false
+            Arguments = args
         };
 
-        var proc = Process.Start(psi);
+        if (workDir is not "") psi.WorkingDirectory = workDir;
         
+        var proc = Process.Start(psi);
+
         proc?.WaitForExit();
 
-        if (proc?.ExitCode is -1)
+        if (proc is { ExitCode: -1 })
             Reporter.Report(Reporter.Situation.ExitCode,
                 $"\ncmd: {command} \nargs: {args} \nworkdir: {workDir} \nout: {proc.StandardOutput.ReadToEnd()}");
     }
