@@ -37,6 +37,7 @@ function update() {
 export default definePlugin({
     name: "downmix / mono output",
     description: "forces discord to downmix voice audio to mono. useful for those pesky steweo users uwu sempai 🤮",
+    dependencies: ["BetterMicrophone"],
     authors: [
         {
             id: 526331463709360141n,
