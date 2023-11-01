@@ -5,8 +5,12 @@ internal static class Constants
     public static readonly string Directory =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vencord");
 
+    public static readonly string[] OtherPluginsSparse =
+    {
+        "https://github.com/philhk/Vencord.git",
+        "https://codeberg.org/lunaa/userPlugins.git"
+    };
     public static readonly string[] OtherPlugins = {
-        "https://codeberg.org/Lunaa/bannersEverywhere.git",
         "https://github.com/Syncxv/vc-gif-collections.git",
         "https://github.com/Syncxv/vc-message-logger-enhanced.git"
         };

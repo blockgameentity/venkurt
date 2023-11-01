@@ -11,16 +11,55 @@ internal static class Setup
         Runner.RunCommand("pnpm", "install --frozen-lockfile", Constants.Directory);
     }
 
+
+    public static void GitDelete(string dir)
+    {
+        var gitDi = new DirectoryInfo(Path.Combine(dir, ".git", "objects", "pack"));
+        if (gitDi.Exists)
+        {
+            foreach (var fi in gitDi.EnumerateFiles())
+                File.SetAttributes(fi.FullName, FileAttributes.Normal);
+
+            if (dir != Constants.Directory) return;
+            
+            foreach (var plugin in Constants.OtherPlugins)
+            foreach (var fi in new DirectoryInfo(Path.Combine(dir, "src", "userplugins",
+                             plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git", "objects",
+                             "pack"))
+                         .EnumerateFiles())
+                File.SetAttributes(fi.FullName, FileAttributes.Normal);
+        }
+        
+        a:
+        try
+        {
+            Directory.Delete(dir, true);
+        }
+        catch (UnauthorizedAccessException ex) when (ex.Message.Contains("Access to the path"))
+        {
+            Thread.Sleep(100);
+            goto a;
+        }
+    }
+
     public static void PhilsPlugins()
     {
-        Runner.RunCommand("git", "clone https://github.com/philhk/Vencord phil", Constants.Directory);
+        var philDir = Path.Combine(Constants.Directory, "phil");
+        Runner.RunCommand("git", $"clone -n --depth=1 --filter=tree:0 {Constants.OtherPluginsSparse[0]} phil",
+            Constants.Directory);
+
+        var sparse = Constants.PhilPluginNames.Aggregate("sparse-checkout set --no-cone ",
+            (current, plugin) => current + $"src/plugins/{plugin} ");
+        Runner.RunCommand("git", sparse, philDir);
+        Runner.RunCommand("git", "checkout", philDir);
+
         foreach (var plugin in Constants.PhilPluginNames)
         {
-            Directory.Move(Path.Combine(Constants.Directory, "phil", "src", "plugins", plugin),
+            Directory.Move(Path.Combine(philDir, "src", "plugins", plugin),
                 Path.Combine(Constants.Directory, "src", "plugins", plugin));
         }
 
-        Runner.RunCommand("powershell", $"\"Remove-Item '{Path.Combine(Constants.Directory, "phil")}' -Recurse -Force\"");
+        GitDelete(philDir);
     }
 
     public static async Task UserPlugins()
@@ -33,5 +72,16 @@ internal static class Setup
 
         foreach (var plugin in Constants.OtherPlugins)
             Runner.RunCommand("git", $"clone {plugin}", userplugs);
+        
+        var lunaDir = Path.Combine(Constants.Directory, "luna");
+        Runner.RunCommand("git", $"clone -n --depth=1 --filter=tree:0 {Constants.OtherPluginsSparse[1]} luna",
+            Constants.Directory);
+        Runner.RunCommand("git", "sparse-checkout set --no-cone bannersEverywhere", lunaDir);
+        Runner.RunCommand("git", "checkout", lunaDir);
+        
+        Directory.Move(Path.Combine(lunaDir, "bannersEverywhere"),
+            Path.Combine(Constants.Directory, "src", "userplugins", "bannersEverywhere"));
+        
+        GitDelete(lunaDir);
     }
 }

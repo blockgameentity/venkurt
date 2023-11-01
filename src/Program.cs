@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace venkurt;
+﻿namespace venkurt;
 
 internal static class Program
 {
@@ -8,12 +6,7 @@ internal static class Program
     {
         if (!Directory.Exists(Constants.Directory)) return;
         
-        // I tried using Directory.Delete(Constants.Directory, true); but it always failed me with some kind of
-        // odd access denied error on a git file even though it wasn't even being used!
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            Runner.RunCommand("powershell", $"\"Remove-Item '{Constants.Directory}' -Recurse -Force\"");
-        else
-            Runner.RunCommand("rm", $"-rf \"{Constants.Directory}\"");
+        Setup.GitDelete(Constants.Directory);
     }
 
     private static async Task Main()
