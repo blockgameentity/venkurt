@@ -19,17 +19,18 @@ internal static class Setup
         {
             foreach (var fi in gitDi.EnumerateFiles())
                 File.SetAttributes(fi.FullName, FileAttributes.Normal);
-
-            if (dir != Constants.Directory) return;
-            
-            foreach (var plugin in Constants.OtherPlugins)
-            foreach (var fi in new DirectoryInfo(Path.Combine(dir, "src", "userplugins",
-                             plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git", "objects",
-                             "pack"))
-                         .EnumerateFiles())
-                File.SetAttributes(fi.FullName, FileAttributes.Normal);
         }
-        
+
+        if (dir == Constants.Directory)
+            foreach (var plugin in Constants.OtherPlugins)
+            {
+                var di = new DirectoryInfo(Path.Combine(dir, "src", "userplugins",
+                    plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git", "objects", "pack"));
+                if (!di.Exists) continue;
+                foreach (var fi in di.EnumerateFiles())
+                    File.SetAttributes(fi.FullName, FileAttributes.Normal);
+            }
+
         a:
         try
         {
