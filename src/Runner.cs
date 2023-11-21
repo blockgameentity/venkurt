@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Serilog;
 
 namespace venkurt;
 
@@ -19,7 +20,6 @@ internal static class Runner
         proc?.WaitForExit();
 
         if (proc is { ExitCode: -1 })
-            Reporter.Report(Reporter.Situation.ExitCode,
-                $"\ncmd: {command} \nargs: {args} \nworkdir: {workDir} \nout: {proc.StandardOutput.ReadToEnd()}");
+            Log.Error($"\ncmd: {command} \nargs: {args} \nworkdir: {workDir} \nout: {proc.StandardOutput.ReadToEnd()}");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Serilog;
 
 namespace venkurt;
 
@@ -37,7 +38,7 @@ internal static class Deps
         {
             if (GetCommand(requirement.Replace("js", string.Empty))) continue;
 
-            Console.WriteLine($"{requirement} is not installed!");
+            Log.Error($"{requirement} is not installed!");
             Console.ReadLine();
             Environment.Exit(-1);
         }

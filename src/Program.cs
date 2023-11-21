@@ -1,4 +1,6 @@
-﻿namespace venkurt;
+﻿using Serilog;
+
+namespace venkurt;
 
 internal static class Program
 {
@@ -13,6 +15,10 @@ internal static class Program
     {
         using var mutex = new Mutex(false, $@"Global\{Constants.AppGuid}");
         if (!mutex.WaitOne(0, false)) return;
+        
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateLogger();
         
         Deps.EnsureRequirements();
         DeleteVencord();

@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Serilog;
 
 namespace venkurt;
 
@@ -11,24 +12,33 @@ internal static class Setup
         Runner.RunCommand("pnpm", "install --frozen-lockfile", Constants.Directory);
     }
 
+    private static void SetAttributesRecursively(DirectoryInfo di)
+    {
+        foreach (var di2 in di.EnumerateDirectories())
+        {
+            SetAttributesRecursively(di2);
+        }
+
+        foreach (var fi in di.EnumerateFiles())
+        {
+            Log.Information($"Setting {fi.FullName}'s file attributes to normal");
+            File.SetAttributes(fi.FullName, FileAttributes.Normal);
+        }
+    }
 
     public static void GitDelete(string dir)
     {
-        var gitDi = new DirectoryInfo(Path.Combine(dir, ".git", "objects", "pack"));
+        var gitDi = new DirectoryInfo(Path.Combine(dir, ".git"));
         if (gitDi.Exists)
-        {
-            foreach (var fi in gitDi.EnumerateFiles())
-                File.SetAttributes(fi.FullName, FileAttributes.Normal);
-        }
+            SetAttributesRecursively(gitDi);
 
         if (dir == Constants.Directory)
             foreach (var plugin in Constants.OtherPlugins)
             {
                 var di = new DirectoryInfo(Path.Combine(dir, "src", "userplugins",
-                    plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git", "objects", "pack"));
+                    plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git"));
                 if (!di.Exists) continue;
-                foreach (var fi in di.EnumerateFiles())
-                    File.SetAttributes(fi.FullName, FileAttributes.Normal);
+                SetAttributesRecursively(di);
             }
 
         a:
@@ -39,6 +49,7 @@ internal static class Setup
         catch (UnauthorizedAccessException ex) when (ex.Message.Contains("Access to the path"))
         {
             Thread.Sleep(100);
+            Log.Error($"Could not access {dir}! Trying again...");
             goto a;
         }
     }

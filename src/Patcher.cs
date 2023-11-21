@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Serilog;
 
 namespace venkurt;
 
@@ -10,7 +11,7 @@ internal static class Patcher
         content = content.Replace(oldString, newString);
         if (!content.Contains(oldString))
             if (!content.Contains(newString))
-                Reporter.Report(Reporter.Situation.NothingToPatch, $"Could not find {oldString} in {filePath}");
+                Log.Error($"Could not find {oldString} in {filePath}");
 
         File.WriteAllText(filePath, content);
     }
