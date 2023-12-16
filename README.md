@@ -1,5 +1,5 @@
 # venkurt
-to run the patcher, you currently require having [node.js](https://nodejs.org/), [pnpm](https://pnpm.io/) and [git](https://git-scm.com/) installed
+to run the patcher, you currently need [node.js](https://nodejs.org/), [pnpm](https://pnpm.io/) and [git](https://git-scm.com/) installed.
 
 ## my plugins
 
