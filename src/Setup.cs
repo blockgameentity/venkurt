@@ -92,5 +92,16 @@ internal static class Setup
             Path.Combine(Constants.Directory, "src", "userplugins", "bannersEverywhere"));
         
         GitDelete(lunaDir);
+        
+        var skullyDir = Path.Combine(Constants.Directory, "skully");
+        Runner.RunCommand("git", $"clone -n --depth=1 --filter=tree:0 {Constants.OtherPluginsSparse[2]} skully",
+            Constants.Directory);
+        Runner.RunCommand("git", "sparse-checkout set --no-cone src/plugins/ToastNotifications", skullyDir);
+        Runner.RunCommand("git", "checkout", skullyDir);
+        
+        Directory.Move(Path.Combine(skullyDir, "src", "plugins", "ToastNotifications"),
+            Path.Combine(Constants.Directory, "src", "userplugins", "ToastNotifications"));
+        
+        GitDelete(skullyDir);
     }
 }

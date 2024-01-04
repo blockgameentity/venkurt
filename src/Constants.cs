@@ -7,7 +7,8 @@ internal static class Constants
 
     public static readonly string[] OtherPluginsSparse = {
         "https://github.com/philhk/Vencord.git",
-        "https://codeberg.org/lunaa/userPlugins.git"
+        "https://codeberg.org/lunaa/userPlugins.git",
+        "https://github.com/ImSkully/Vencord.git"
     };
     public static readonly string[] OtherPlugins = {
         "https://github.com/Syncxv/vc-gif-collections.git",

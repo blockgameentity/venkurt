@@ -49,7 +49,8 @@ internal static class Patcher
         foreach (var plugin in Constants.PhilPluginNames)
             ReplaceStringInFile(Path.Combine(Constants.Directory, "src", "plugins", plugin, "constants",
                 "constants.ts"), "Devs.philhk", "Devs.phil");
-
+        ReplaceStringInFile(Path.Combine(Constants.Directory, "src", "userplugins", "ToastNotifications", "index.tsx"), "[Devs.Skully]", "[{id:150298098516754432n, name:\"Skully\"}]");
+        
         var philLib = Path.Combine(Constants.Directory, "src", "plugins", "philsPluginLibrary");
 
         // beautiful monstrosity
