@@ -15,3 +15,4 @@ to run the patcher, you currently need [node.js](https://nodejs.org/), [pnpm](ht
 * [Syncxv's Timezones](https://github.com/Syncxv/vc-timezones)
 * [Phil's BetterMicrophone](https://github.com/philhk/Vencord)
 * [Phil's BetterScreenshare](https://github.com/philhk/Vencord)
+* [ImSkully's ToastNotifications](https://github.com/Vendicated/Vencord/pull/1806)
