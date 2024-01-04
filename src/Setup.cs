@@ -33,13 +33,10 @@ internal static class Setup
             SetAttributesRecursively(gitDi);
 
         if (dir == Constants.Directory)
-            foreach (var plugin in Constants.OtherPlugins)
-            {
-                var di = new DirectoryInfo(Path.Combine(dir, "src", "userplugins",
-                    plugin[(plugin.LastIndexOf('/') + 1)..].Replace(".git", string.Empty), ".git"));
-                if (!di.Exists) continue;
-                SetAttributesRecursively(di);
-            }
+        {
+            var di = new DirectoryInfo(Path.Combine(dir, "src", "userplugins"));
+            SetAttributesRecursively(di);
+        }
 
         a:
         try
