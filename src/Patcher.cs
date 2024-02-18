@@ -45,7 +45,7 @@ internal static class Patcher
     {
         ReplaceStringInFile(
             Path.Combine(Constants.Directory, "src", "userplugins", "vc-message-logger-enhanced", "utils",
-                "checkForUpdates.ts"), "changes = await Unwrap<Commit[]>(Native.getNewCommits());", "return false;");
+                "updater.tsx"), "changes = await Unwrap<Commit[]>(Native.getNewCommits());", "return false;");
         foreach (var plugin in Constants.PhilPluginNames)
             ReplaceStringInFile(Path.Combine(Constants.Directory, "src", "plugins", plugin, "constants",
                 "constants.ts"), "Devs.philhk", "Devs.phil");
