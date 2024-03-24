@@ -67,6 +67,10 @@ internal static class Patcher
             "const secondActionButtonContainer=(firstActionButtonContainer.parentElement?.children[1]as HTMLElement);" +
             "firstActionButtonContainer.appendChild(secondActionButtonContainer)}},500);");
 
+        ReplaceStringInFile(Path.Combine(Constants.Directory, "src", "api", "Settings.ts"),
+            "VencordNative.settings.set(SettingsStore.plain, path);",
+            "VencordNative.settings.set(/* This is really bad but it works */JSON.parse(JSON.stringify(SettingsStore.plain)), path);");
+
         await File.WriteAllTextAsync(
             Path.Combine(philLib, "components",
                 "ContributorAuthorSummary.tsx"), await ReadResource("venkurt.files.ContributorAuthorSummary.tsx"));
